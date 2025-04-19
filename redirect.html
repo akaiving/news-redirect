@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>뉴스로 이동 중...</title>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const params = new URLSearchParams(window.location.search);
+      const target = params.get('target');
+
+      if (target) {
+        window.location.href = decodeURIComponent(target);
+      } else {
+        document.body.innerHTML = "잘못된 접근입니다.";
+      }
+    });
+  </script>
+</head>
+<body>
+  뉴스 페이지로 이동 중입니다...
+</body>
+</html>
