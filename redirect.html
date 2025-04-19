@@ -13,22 +13,42 @@
     gtag('config', 'G-M0KC8VG6ZK');
   </script>
   
- <script>
-    // URL의 쿼리 스트링에서 원하는 매개변수 값을 가져오는 함수
+ <!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>뉴스로 이동 중...</title>
+  <script>
     function getQueryParam(name) {
-      const params = new URLSearchParams(window.location.search);
-      return params.get(name);
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
     }
 
-    // 페이지 로드 시 자동 실행
+    function getAllUtmParams() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const utmParams = [];
+      urlParams.forEach((value, key) => {
+        if (key.startsWith('utm_')) {
+          utmParams.push(`${key}=${encodeURIComponent(value)}`);
+        }
+      });
+      return utmParams.join('&');
+    }
+
     window.onload = function() {
       const targetUrl = getQueryParam('url');
+      const utmParams = getAllUtmParams();
 
       if (targetUrl) {
-        // 정상 접근 시 리디렉션 수행
-        window.location.href = decodeURIComponent(targetUrl);
+        let redirectUrl = decodeURIComponent(targetUrl);
+
+        // UTM이 있으면 뒤에 붙이기
+        if (utmParams) {
+          redirectUrl += (redirectUrl.includes('?') ? '&' : '?') + utmParams;
+        }
+
+        window.location.href = redirectUrl;
       } else {
-        // URL이 없을 경우 에러 메시지
         document.body.innerHTML = '<h3>잘못된 접근입니다.</h3>';
       }
     };
@@ -38,4 +58,5 @@
   <h3>잠시만 기다려 주세요...</h3>
 </body>
 </html>
+
 
