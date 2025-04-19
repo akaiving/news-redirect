@@ -13,20 +13,29 @@
     gtag('config', 'G-M0KC8VG6ZK');
   </script>
   
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
+ <script>
+    // URL의 쿼리 스트링에서 원하는 매개변수 값을 가져오는 함수
+    function getQueryParam(name) {
       const params = new URLSearchParams(window.location.search);
-      const target = params.get('target');
+      return params.get(name);
+    }
 
-      if (target) {
-        window.location.href = decodeURIComponent(target);
+    // 페이지 로드 시 자동 실행
+    window.onload = function() {
+      const targetUrl = getQueryParam('url');
+
+      if (targetUrl) {
+        // 정상 접근 시 리디렉션 수행
+        window.location.href = decodeURIComponent(targetUrl);
       } else {
-        document.body.innerHTML = "잘못된 접근입니다.";
+        // URL이 없을 경우 에러 메시지
+        document.body.innerHTML = '<h3>잘못된 접근입니다.</h3>';
       }
-    });
+    };
   </script>
 </head>
 <body>
-  뉴스 페이지로 이동 중입니다...
+  <h3>잠시만 기다려 주세요...</h3>
 </body>
 </html>
+
